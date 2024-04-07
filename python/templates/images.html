@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-repeat: no-repeat;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: auto;
+            background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
+            animation: gradient 15s ease infinite;
+            background-size: 400% 400%;
+            background-attachment: fixed;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.wave {
+    background: rgb(255 255 255 / 25%);
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 200%;
+    height: 12em;
+    animation: wave 10s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.8;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.wave:nth-of-type(2) {
+    bottom: -1.25em;
+    animation: wave 18s linear reverse infinite;
+    opacity: 0.8;
+}
+
+.wave:nth-of-type(3) {
+    bottom: -2.5em;
+    animation: wave 20s -1s reverse infinite;
+    opacity: 0.9;
+}
+
+@keyframes wave {
+    2% {
+        transform: translateX(1);
+    }
+
+    25% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    75% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(1);
+    }
+}
+
+        #default-sidebar {
+            width: 350px;
+            /* Adjust the width of the sidebar as needed */
+            height: 100%;
+            background-color: #f0f0f0;
+            /* Sidebar background */
+        }
+
+        .content {
+            flex-grow: 1;
+            /* Takes up the remaining space */
+            display: flex;
+            flex-direction: column;
+            /* Stack vertically */
+            padding: 20px;
+            overflow-y: auto;
+            /* Adds scroll to the content area if needed */
+            margin-left: 30%;
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            /* Allows the chat container to grow */
+            border: 1px solid #cccccc00;
+            border-radius: 10px;
+            overflow-y: auto;
+            /* Scrollable content */
+            margin-bottom: 30px;
+            /* Space between chat container and input container */
+            margin-left: 5%;
+        }
+
+        .input-container {
+            display: inline-block;
+            /* Aligns the input and button */
+            gap: 10px;
+            /* Adds space between the input and the button */
+        }
+
+        .input-container input {
+            flex-grow: 1;
+            /* Allows the input to take up available space */
+
+        }
+
+        */ .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .image-container img {
+            border-radius: 5px;
+            width: 150px;
+            /* Adjust based on preference */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #apiResponseContainer {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            margin-left: 37%;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        h2 {
+            margin: 20px 0;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            clear: both;
+            text-align: justify;
+        }
+
+        .user-message {
+            background-color: #DCF8C6;
+            float: right;
+        }
+
+        .bot-message {
+            background-color: #F0F0F0;
+            float: left;
+        }
+
+        .input-container {
+            margin-top: 10px;
+            border-radius: 10px;
+            margin-bottom: 10%;
+            margin-left: 20%;
+            width: 20%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            margin-left: 45%;
+            align-items: center;
+            background-color: #33333300;
+            color: white;
+            padding: 10px;
+        }
+
+        .navbar img.logo {
+            height: 50px;
+            /* Adjust size as needed */
+        }
+
+        .container {
+            text-align: center;
+            color: #2c3e50;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .promptclass {
+            position: fixed;
+            top: 120vh;
+            left: 59%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s;
+            width: 80vw;
+            height: 65vh;
+
+        }
+
+        .pdfclass {
+            position: relative;
+            top: 2vh;
+            left: 47.5%;
+            text-align: center;
+        }
+
+
+        .finder {
+            border: 1px solid #fff;
+            background-color: #f6f5f0;
+            border-radius: 15px;
+            padding: 8px;
+            box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+        }
+
+        .finder__outer {
+            display: flex;
+            width: 78vw;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #ffffff;
+        }
+
+        .finder__inner {
+            display: flex;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .finder__input {
+            height: calc(100% + 3rem);
+            border: none;
+            background-color: transparent;
+            outline: none;
+            font-size: 1.5rem;
+            letter-spacing: 0.75px;
+            width: 100%;
+            /* Assuming full width for input */
+        }
+
+        .finder__icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+            transition: all 0.2s;
+            box-shadow: inset 0 0 0 20px #292929;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .finder__icon:after {
+            display: block;
+            content: "";
+            position: absolute;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 10px;
+            height: 10px;
+            background-color: #292929;
+            border: 3px solid #f6f5f0;
+            top: 50%;
+            position: absolute;
+            transform: translateY(-50%);
+            left: 0px;
+            right: 0;
+            margin: auto;
+            border-radius: 50%;
+        }
+
+        .active .finder__icon:after {
+            border-width: 10px;
+            background-color: #f6f5f0;
+        }
+
+        .finder__icon:before {
+            width: 4px;
+            height: 13px;
+            background-color: #f6f5f0;
+            top: 50%;
+            left: 20px;
+            transform: rotateZ(45deg) translate(-50%, 0);
+            transform-origin: 0 0;
+            border-radius: 4px;
+            position: absolute;
+            content: "";
+        }
+
+        .active .finder__icon:before {
+            background-color: #292929;
+            width: 6px;
+            transform: rotateZ(45deg) translate(-50%, 25px);
+        }
+
+        .processing .finder__icon {
+            transform-origin: 50%;
+            animation: spinner 0.3s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        .active .finder__icon {
+            transform: translateY(-5px);
+        }
+
+        @keyframes spinner {
+            0% {
+                transform: rotateZ(45deg);
+            }
+
+            100% {
+                transform: rotateZ(405deg);
+            }
+        }
+
+        button {
+            /* background-color: #2c3e50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-left: 90%;
+            text-align: justify; */
+            color: rgb(255, 255, 255);
+        }
+
+        #pdfUploadForm {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        /* Styling the "Upload" button */
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #01070e;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            /* Aligns text to the center */
+            text-align: center;
+            /* Positioning */
+            position: absolute;
+            left: 70%;
+            transform: translateX(-50%);
+        }
+
+        /* Hides the actual file input visually but keeps it in the document flow */
+        #file {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+    </style>
+      <div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+     </div>
+    <div class="navbar">
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Logo" class="logo">
+        <button class="Newchat" type="button" id="newChatBtn" class="btn btn-secondary">
+            <i class="bi bi-chat-dots"></i> New Chat
+        </button>
+    </div>
+
+    <form id="pdfUploadForm" enctype="multipart/form-data" method="POST" class="pdfclass">
+        <input type="file" id="pdfFile" name="pdf_file" accept="application/pdf" style="display: none;"
+            aria-hidden="true">
+        <button type="button" id="uploadBtn" class="btn btn-primary">
+            <i class="bi bi-upload"></i> Upload PDF
+        </button>
+    </form>
+
+
+
+
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <!-- Scrollable area for images -->
+            <ul class="space-y-2 font-medium max-h-96 overflow-y-auto">
+                <li>
+
+                    <a href="#"
+                        class="flex flex-col items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <!-- Placeholder for image iteration in Flask -->
+                        {% for image_filename in image_filenames %}
+                        <img src="{{ url_for('uploaded_file', filename=image_filename) }}" alt="Image" class="my-2"
+                            onclick="imageClicked('{{ image_filename }}')">
+                        {% endfor %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="content">
+        <div class="chat-container" id="chatContainer">
+            <!-- Placeholder for messages -->
+            <div class="container">
+                <form autocomplete="off" class="promptclass">
+                    <div class="finder">
+                        <div class="finder__outer">
+                            <div class="finder__inner">
+                                <div class="finder__icon" ref="icon"></div>
+                                <!-- Preserved the functionality and placeholder of the original input -->
+                                <input class="finder__input" type="text" placeholder="Enter your Prompt" />
+                                <!-- Note: The original structure had a button which is not present in the new structure request -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        alert("select image after uploading.....")
+        let currentImageFilename = null;
+
+        function appendMessage(sender, message) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message');
+            messageDiv.classList.add(sender + '-message');
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            let i = 0;
+            function typeWriter() {
+                if (i < message.length) {
+                    messageDiv.textContent += message.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50); // Adjust typing speed as needed
+                }
+            }
+            typeWriter();
+        }
+
+        document.getElementById('default-sidebar').addEventListener('click', function (event) {
+            // Check if the clicked element is an image
+            if (event.target.tagName === 'IMG') {
+                // Extract the filename from the image's src attribute
+                const imageSrc = event.target.getAttribute('src');
+                const filename = imageSrc.split('/').pop(); // Adjust this line if necessary to correctly extract the filename
+
+                // Call the imageClicked function
+                imageClicked(filename);
+            }
+        });
+
+
+        function imageClicked(imageFilename) {
+            if (currentImageFilename !== imageFilename) {
+                const message = "You selected the page. Enter your prompt:";
+                appendMessage('bot', message);
+                // Update to match the new input structure
+                document.querySelector('.container').style.display = 'block';
+                document.querySelector('.finder__input').focus();
+                currentImageFilename = imageFilename;
+            }
+            else {
+                // Ensure the container is displayed if re-clicking the same image
+                document.querySelector('.container').style.display = 'block';
+                document.querySelector('.finder__input').focus();
+            }
+        }
+
+        // Adding an event listener for the form submission
+        document.querySelector('.container form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const userInput = document.querySelector('.finder__input').value;
+            if (userInput && currentImageFilename) {
+                appendMessage('user', userInput);
+                document.querySelector('.finder__input').value = ''; // Clear the input field
+
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ selectedImage: currentImageFilename, userInput: userInput }),
+                });
+                const responseData = await response.json();
+                appendMessage('bot', responseData.response || "No response.");
+            }
+        });
+        const input = document.querySelector(".finder__input");
+        const finder = document.querySelector(".finder");
+        const form = document.querySelector("form");
+
+        input.addEventListener("focus", () => {
+            finder.classList.add("active");
+        });
+
+        input.addEventListener("blur", () => {
+            if (input.value.length === 0) {
+                finder.classList.remove("active");
+            }
+        });
+
+        form.addEventListener("submit", (ev) => {
+            ev.preventDefault();
+            finder.classList.add("processing");
+            finder.classList.remove("active");
+            input.disabled = true;
+            setTimeout(() => {
+                finder.classList.remove("processing");
+                input.disabled = false;
+                if (input.value.length > 0) {
+                    finder.classList.add("active");
+                }
+            }, 1000);
+        });
+        document.getElementById('newChatBtn').addEventListener('click', function () {
+    fetch('/clear_uploads', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Success or error message from server
+            window.location.reload(); // Reload the page after the folder is cleared
+        })
+        .catch(error => console.error('Error clearing uploads:', error));
+});
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Trigger file input when custom upload button is clicked
+            document.getElementById('uploadBtn').addEventListener('click', function () {
+                document.getElementById('pdfFile').click();
+            });
+
+            document.getElementById('pdfFile').addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    // Provide immediate feedback that the file is being uploaded
+                    document.getElementById('uploadBtn').innerHTML = '<i class="bi bi-arrow-repeat"></i> Uploading...';
+                    document.getElementById('uploadBtn').disabled = true; // Optional: disable button during upload
+
+                    var formData = new FormData(document.getElementById('pdfUploadForm'));
+                    formData.append('pdf_file', this.files[0]);
+
+                    fetch('/', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('uploadBtn').innerHTML = '<i class="bi bi-upload"></i> Upload Another PDF';
+                            document.getElementById('uploadBtn').disabled = false; // Re-enable the button
+                            const imageContainer = document.querySelector('#default-sidebar .overflow-y-auto ul');
+                            imageContainer.innerHTML = ''; // Clear existing images, if necessary
+                            data.image_filenames.forEach(filename => {
+                                const imgElement = document.createElement('img');
+                                imgElement.src = `/uploads/${filename}`;
+                                imgElement.alt = 'Uploaded Image';
+                                imgElement.classList.add('img-thumbnail', 'my-2');
+                                const listItem = document.createElement('li');
+                                listItem.appendChild(imgElement);
+                                imageContainer.appendChild(listItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            document.getElementById('uploadBtn').innerHTML = '<i class="bi bi-exclamation-circle"></i> Upload Failed - Retry';
+                            document.getElementById('uploadBtn').disabled = false; // Re-enable the button
+                        });
+                }
+            });
+        });
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+
+
+
+
+</body>
+
+</html>
