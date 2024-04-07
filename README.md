@@ -1,73 +1,29 @@
-PDF Image Converter & Interactor
-This project provides a web interface for users to upload PDF documents, convert these documents into images, and then interact with these images through a user-friendly interface. It includes features such as user authentication, dynamic content rendering based on uploaded files, and making external API calls based on user inputs.
+# Fair Compute Company Hackathon - interaction of LLAVA with images 
 
-Features
-User authentication system.
-PDF file upload and conversion to images.
-Dynamic rendering of converted images on the web page.
-Interaction with images through a web-based interface.
-External API integration for further image processing.
-Getting Started
-Follow these instructions to get the project up and running on your local machine for development and testing purposes.
+This Flask-based web application allows users to upload PDF files, converts them to images, and provides an interface for interacting with these images. It includes user authentication, dynamic content rendering, and external API integration.
 
-Prerequisites
-Ensure you have Python 3.6+ and pip installed on your system. You will also need Flask and other project-specific Python libraries.
+## Features
 
-Installation
-Clone the repository to your local machine:
+- **User Authentication**: Secure login mechanism.
+- **PDF Upload and Conversion**: Users can upload PDFs and convert them to images.
+- **Dynamic Image Interaction**: Interact with the converted images directly in the browser.
+- **External API Integration**: Extend functionality through external APIs.
+- **Prompt to llava:7b-v1.6-mistral-q5_K_M**:selected image is converted into base64 code which will interact with model and give response 
 
-bash
-Copy code
-git clone https://github.com/yourusername/yourprojectname.git
-Navigate to the project directory:
+## Getting Started
 
-bash
-Copy code
-cd yourprojectname
-Install the required Python packages:
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-bash
-Copy code
-pip install -r requirements.txt
-Running the Application
-Start the Flask server:
+### Prerequisites
 
-bash
-Copy code
-python server.py
-Access the application through your web browser:
+What you need to install the software:
 
-arduino
-Copy code
-http://localhost:5000
-Usage
-Visit the main page and log in with your credentials.
-Navigate to the PDF upload section to upload a PDF document.
-Once uploaded, interact with the converted images displayed on the web page.
-Utilize the provided features for interacting with these images or making API calls for further processing.
-Running the Tests
-Explain how to run the automated tests for this system (if applicable).
+- Python 3.6 or higher
+- pip and virtualenv
+- model used :llava:7b-v1.6-mistral-q5_K_M
+  
 
-Deployment
-Add additional notes about how to deploy this on a live system (if applicable).
+### Installation
 
-Built With
-Flask - The web framework used.
-pdf2image - Used for converting PDF documents to images.
-Contributing
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
+1. **Clone the repository**
 
-Versioning
-We use SemVer for versioning. For the versions available, see the tags on this repository.
-
-Authors
-Your Name - Initial work - YourUsername
-See also the list of contributors who participated in this project.
-
-License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
-
-Acknowledgments
-Hat tip to anyone whose code was used
-Inspiration
-etc
