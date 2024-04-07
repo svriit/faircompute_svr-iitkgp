@@ -26,4 +26,6 @@ What you need to install the software:
 ### Installation
 
 1. **Clone the repository**
-
+2. **python3 run server.py**
+3. **Sign up in Fair Compute Website "https://faircompute.com/"**
+   
